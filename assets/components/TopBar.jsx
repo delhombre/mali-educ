@@ -1,47 +1,95 @@
-import { AppBar, IconButton, makeStyles, Toolbar, Typography } from "@material-ui/core";
-import React from "react"
-import MenuIcon from "@material-ui/icons/Menu";
+import {
+	AppBar,
+	Button,
+	IconButton,
+	makeStyles,
+	Toolbar,
+} from "@material-ui/core";
+import React, { useContext } from "react";
+import { Menu as MenuIcon, Moon } from "react-feather";
+import LoginModalContext from "../contexts/LoginModalContext";
 
 const drawerWidth = 240;
 
-const useStyles = makeStyles(theme => ({
-  appBar: {
-    [theme.breakpoints.up('sm')]: {
-      width: `calc(100% - ${drawerWidth}px)`,
-      marginLeft: drawerWidth,
-    },
-  },
-  menuButton: {
-    marginRight: theme.spacing(2),
-    [theme.breakpoints.up('sm')]: {
-      display: 'none',
-    },
-  },
+const useStyles = makeStyles((theme) => ({
+	appBar: {
+		[theme.breakpoints.up("sm")]: {
+			width: `calc(100% - ${drawerWidth}px)`,
+			marginLeft: drawerWidth,
+		},
+		WebkitBoxShadow: "0 3px 0 0 rgba(0,0,0,.06)",
+		boxShadow: "0 3px 0 0 rgba(0,0,0,.06)",
+	},
+	menuButton: {
+		marginRight: theme.spacing(2),
+		[theme.breakpoints.up("sm")]: {
+			display: "none",
+		},
+	},
+	loginButton: {
+		position: "relative",
+		marginRight: theme.spacing(2),
+		marginLeft: 0,
+		width: "100%",
+	},
+	grow: {
+		flexGrow: 1,
+	},
+	sectionMobile: {
+		[theme.breakpoints.up("md")]: {
+			display: "none",
+		},
+	},
 }));
 
-const TopBar = ({onDrawerToggle}) => {
-    const classes = useStyles();
+// eslint-disable-next-line react/prop-types
+const TopBar = ({ handleDrawerToggle }) => {
+	const classes = useStyles();
 
-    return (
-        <>
-            <AppBar position="fixed" className={classes.appBar} elevation={0}>
-                <Toolbar>
-                    <IconButton
-                        color="inherit"
-                        aria-label="open drawer"
-                        edge="start"
-                        onClick={onDrawerToggle}
-                        className={classes.menuButton}
-                    >
-                        <MenuIcon />
-                    </IconButton>
-                    <Typography variant="h6" noWrap>
-                        MaliEduc
-                    </Typography>
-                </Toolbar>
-            </AppBar>
-        </>
-    );
+	const { handleOpen: handleLoginModalOpen } = useContext(LoginModalContext);
+
+	return (
+		<>
+			<AppBar
+				position="fixed"
+				color="default"
+				elevation={0}
+				className={classes.appBar}
+			>
+				<Toolbar>
+					<IconButton
+						color="inherit"
+						aria-label="open drawer"
+						edge="start"
+						onClick={handleDrawerToggle}
+						className={classes.menuButton}
+					>
+						<MenuIcon color="#9e9e9e" />
+					</IconButton>
+
+					<div className={classes.grow} />
+
+					<IconButton aria-label="theme changer" color="inherit">
+						<Moon color="#9e9e9e" />
+					</IconButton>
+					<Button
+						variant="contained"
+						color="primary"
+						disableElevation
+						onClick={handleLoginModalOpen}
+					>
+						Connexion
+					</Button>
+				</Toolbar>
+			</AppBar>
+		</>
+	);
+};
+
+{
+	/* <IconButton edge="end" aria-label="logout icon" color="inherit">
+						<PowerIcon color="#9e9e9e" />
+					</IconButton> */
 }
 
 export default TopBar;
